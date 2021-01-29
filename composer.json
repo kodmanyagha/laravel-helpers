@@ -1,18 +1,24 @@
 {
-    "name": "kodmanyagha/laravel-helpers",
-    "type": "library",
-    "require": {
-        "laravel/framework": ">=5.7"
-    },
-    "authors": [
-        {
-            "name": "Emir Bugra Koksalan",
-            "email": "kodmanyagha@gmail.com"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Kodmanyagha\\Helpers\\": "src/"
-        }
+  "name": "kodmanyagha/laravel-helpers",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "laravel/framework": ">=5.7"
+  },
+  "authors": [
+    {
+      "name": "Emir Bugra Koksalan",
+      "email": "kodmanyagha@gmail.com"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Kodmanyagha\\Helpers\\": "src/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  }
 }
