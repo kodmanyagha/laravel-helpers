@@ -1,5 +1,5 @@
 # Laravel Helper Functions
 
-Some usable functions.
+Some usable functions and classes.
 
 
