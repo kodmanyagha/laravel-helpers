@@ -1,6 +1,6 @@
 {
   "name": "kodmanyagha/laravel-helpers",
-  "version": "1.1.5-dev",
+  "version": "1.1.4",
   "description": "Laravel helpers functions and classes.",
   "type": "library",
   "license": "MIT",
