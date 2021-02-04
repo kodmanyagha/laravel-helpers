@@ -17,11 +17,5 @@
     "psr-4": {
       "Kodmanyagha\\Helpers\\": "src/"
     }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.1.4-dev"
-    }
   }
 }
-
