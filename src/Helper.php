@@ -487,7 +487,7 @@ if (!function_exists('lg')) {
         $file   = substr($file, strlen($cwd));
 
         // pass the current file
-        if ($file == str_replace(base_path(), '', __FILE__))
+        if ($file == '/vendor/kodmanyagha/laravel-helpers/src/Helper.php')
             $caller = array_shift($bt);
 
         $file    = $caller['file'];
