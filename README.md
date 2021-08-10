@@ -5,11 +5,12 @@
 [![Latest Unstable Version](https://poser.pugx.org/kodmanyagha/laravel-helpers/v/unstable.svg)](https://packagist.org/packages/kodmanyagha/laravel-helpers)
 [![License](https://poser.pugx.org/kodmanyagha/laravel-helpers/license.svg)](https://packagist.org/packages/kodmanyagha/laravel-helpers)
 
-Do you miss any Laravel code generator on your Lumen project? If yes, then you're in the right place.
+Some beautiful functions here. String to Object conversion, make array or object everything, log current file and line number,
+random date between given dates etc...
 
 ## Installation
 
-To use _some_ generators command in Lumen (just like you do in Laravel), you need to add this package:
+This is classical composer package. You can install with one command line and start to use it:
 
 ```sh
 composer require kodmanyagha/laravel-helpers
