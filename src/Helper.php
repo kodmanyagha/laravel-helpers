@@ -52,20 +52,37 @@ if (!function_exists('makeApiCall')) {
      */
     function makeApiCall($url, $method = 'get', $postData = null, $username = null, $password = null, $cookieFile = null)
     {
-        $ch = curl_init();
+        $method = strtolower($method);
 
+        $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_VERBOSE, 1);
         curl_setopt($ch, CURLOPT_HEADER, 1);
-        curl_setopt($ch, CURLOPT_POST, intval($method == "post"));
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFile);
-        curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFile);
 
-        if (!is_null($username)) curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);
+        if (strlen($cookieFile) > 0) {
+            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFile);
+            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFile);
+        }
 
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+        if (in_array($method, [
+            'post',
+            'put',
+            'patch'
+        ])) {
+            if ($method == 'post')
+                curl_setopt($ch, CURLOPT_POST, 1);
+            else
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($method));
+
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+        }
+
+        if (!is_null($username)) {
+            curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);
+        }
+
         curl_setopt($ch, CURLOPT_TIMEOUT, 90);
         curl_setopt($ch, CURLOPT_USERAGENT,
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36');
