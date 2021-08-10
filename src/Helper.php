@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -473,6 +474,46 @@ if (!function_exists('lang')) {
         }
 
         return $key;
+    }
+}
+
+
+if (!function_exists('cts')) {
+
+    /********************
+     * cts: current time stamp
+     * Normally laravel doesn't set created_at and updated_at when you call static insert() method.
+     * But if you set default() parameter as CURRENT_TIMESTAMP then Mysql can set these columns.
+     *
+     * Usage:
+     * Schema::create('password_resets', function (Blueprint $table) {
+     *     $table->string('email')->index();
+     *     $table->string('token');
+     *     //$table->timestamp('created_at')->nullable();
+     *     cts($table);
+     * });
+     *
+     */
+    function cts(&$table)
+    {
+        $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+        $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+    }
+}
+
+
+if (!function_exists('rq')) {
+
+    /********************
+     * rq: random query
+     *
+     * @return float|object
+     */
+    function rq()
+    {
+        if (env('APP_ENV') == 'local')
+            return microtime(true);
+        return date('i');
     }
 }
 
