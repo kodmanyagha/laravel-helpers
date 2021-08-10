@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 
 if (!function_exists('getOnlyNumbers')) {
@@ -161,6 +162,20 @@ if (!function_exists('isLocal')) {
     function isLocal()
     {
         return env('APP_ENV') == 'local';
+    }
+}
+
+
+if (!function_exists('slug')) {
+    /**
+     * @param string $str
+     * @return string
+     *
+     * Convert string to english slug.
+     */
+    function slug($str)
+    {
+        return Str::slug($str);
     }
 }
 
