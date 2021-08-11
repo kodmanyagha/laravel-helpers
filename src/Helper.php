@@ -64,6 +64,7 @@ if (!function_exists('makeApiCall')) {
         curl_setopt($ch, CURLOPT_VERBOSE, 1);
         curl_setopt($ch, CURLOPT_HEADER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 
         if (strlen($cookieFile) > 0) {
             curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFile);
@@ -83,8 +84,7 @@ if (!function_exists('makeApiCall')) {
             if (is_string($postData)) {
                 $headers[] = 'Content-Type: application/x-www-form-urlencoded';
             } else if (is_array($postData) || is_object($postData)) {
-                $postData  = json_encode($postData);
-                $headers[] = 'Content-Type: application/json';
+                $headers[] = 'Content-Type: multipart/form-data';
             }
 
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
