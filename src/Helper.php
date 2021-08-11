@@ -46,13 +46,17 @@ if (!function_exists('makeApiCall')) {
      * @param null $username
      * @param null $password
      * @param null $cookieFile
+     * @param null $bearerToken
      * @return array
      *
      * Return result as array which contains headers and body.
      */
-    function makeApiCall($url, $method = 'get', $postData = null, $username = null, $password = null, $cookieFile = null)
+    function makeApiCall($url, $method = 'get', $postData = null,
+                         $username = null, $password = null,
+                         $cookieFile = null, $bearerToken = null)
     {
-        $method = strtolower($method);
+        $method  = strtolower($method);
+        $headers = [];
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -76,6 +80,13 @@ if (!function_exists('makeApiCall')) {
             else
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($method));
 
+            if (is_string($postData)) {
+                $headers[] = 'Content-Type: application/x-www-form-urlencoded';
+            } else if (is_array($postData) || is_object($postData)) {
+                $postData  = json_encode($postData);
+                $headers[] = 'Content-Type: application/json';
+            }
+
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         }
 
@@ -83,6 +94,10 @@ if (!function_exists('makeApiCall')) {
             curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);
         }
 
+        if (!is_null($bearerToken))
+            $headers[] = "Authorization: Bearer " . $bearerToken;
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_TIMEOUT, 90);
         curl_setopt($ch, CURLOPT_USERAGENT,
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36');
