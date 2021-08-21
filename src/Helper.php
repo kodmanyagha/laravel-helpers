@@ -83,11 +83,11 @@ if (!function_exists('makeApiCall')) {
 
             if (is_string($postData)) {
                 $headers[] = 'Content-Type: application/x-www-form-urlencoded';
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
             } else if (is_array($postData) || is_object($postData)) {
                 $headers[] = 'Content-Type: multipart/form-data';
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
             }
-
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         }
 
         if (!is_null($username)) {
