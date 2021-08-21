@@ -85,7 +85,8 @@ if (!function_exists('makeApiCall')) {
                 $headers[] = 'Content-Type: application/x-www-form-urlencoded';
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
             } else if (is_array($postData) || is_object($postData)) {
-                $headers[] = 'Content-Type: multipart/form-data';
+                //$headers[] = 'Content-Type: multipart/form-data';
+                $headers[] = 'Content-Type: application/json';
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
             }
         }
