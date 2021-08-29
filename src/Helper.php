@@ -448,7 +448,7 @@ if (!function_exists('o2s')) {
     function o2s($obj, $pretty = false)
     {
         if ($pretty)
-            return json_encode($obj, JSON_PRETTY_PRINT);
+            return json_encode($obj, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
         return json_encode($obj);
     }
