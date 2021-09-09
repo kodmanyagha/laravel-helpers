@@ -569,15 +569,18 @@ if (!function_exists('lg')) {
         foreach ($bt as $i => $b) {
             if ($i > 10) break;
         }
-        $cwd = base_path();
 
-        $caller = array_shift($bt);
-        $file   = $caller['file'];
-        $file   = substr($file, strlen($cwd));
-
-        // pass the current file
-        if ($file == '/vendor/kodmanyagha/laravel-helpers/src/Helper.php')
+        $cwd    = base_path();
+        $cellar = null;
+        $file   = null;
+        for ($i = 0; $i < 5; $i++) {
             $caller = array_shift($bt);
+            $file   = $caller['file'];
+            $file   = substr($file, strlen($cwd));
+
+            if ($file != '/vendor/kodmanyagha/laravel-helpers/src/Helper.php')
+                break;
+        }
 
         $file    = $caller['file'];
         $line    = $caller['line'];
