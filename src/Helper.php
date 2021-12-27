@@ -385,18 +385,36 @@ if (!function_exists('pe')) {
 if (!function_exists('continueExecution')) {
     function continueExecution($data)
     {
-        ob_end_clean();
-        header("Connection: close");
+        // check if fastcgi_finish_request is callable
+        if (is_callable('fastcgi_finish_request')) {
+            echo $data;
+            /*
+             * http://stackoverflow.com/a/38918192
+             * This works in Nginx but the next approach not
+             */
+            session_write_close();
+            fastcgi_finish_request();
+
+            return;
+        }
+
         ignore_user_abort(true);
         ob_start();
-        echo $data;
-        $size = ob_get_length();
-        header("Content-Length: $size");
-        ob_end_flush(); // All output buffers must be flushed here
-        flush();        // Force output to client
 
-        if (function_exists('fastcgi_finish_request()'))
-            fastcgi_finish_request();
+        echo $data;
+
+        $serverProtocol = filter_input(INPUT_SERVER, 'SERVER_PROTOCOL', FILTER_SANITIZE_STRING);
+        header($serverProtocol . ' 200 OK');
+        // Disable compression (in case content length is compressed).
+        header('Content-Encoding: none');
+        header('Content-Length: ' . ob_get_length());
+
+        // Close the connection.
+        header('Connection: close');
+
+        ob_end_flush();
+        ob_flush();
+        flush();
     }
 }
 
