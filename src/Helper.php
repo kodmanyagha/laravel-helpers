@@ -369,11 +369,34 @@ if (!function_exists('pe')) {
      * @param $data
      * print and exit
      */
-    function pe($data)
+    function pe($data, $varDump = false)
     {
         echo "<pre>";
-        print_r($data);
+        if ($varDump === true)
+            var_dump($data);
+        else
+            print_r($data);
+
         exit;
+    }
+}
+
+
+if (!function_exists('continueExecution')) {
+    function continueExecution($data)
+    {
+        ob_end_clean();
+        header("Connection: close");
+        ignore_user_abort(true);
+        ob_start();
+        echo $data;
+        $size = ob_get_length();
+        header("Content-Length: $size");
+        ob_end_flush(); // All output buffers must be flushed here
+        flush();        // Force output to client
+
+        if (function_exists('fastcgi_finish_request()'))
+            fastcgi_finish_request();
     }
 }
 
