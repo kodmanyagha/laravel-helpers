@@ -592,6 +592,52 @@ if (!function_exists('rq')) {
 }
 
 
+if (!function_exists('ee')) {
+
+    /********************
+     * ee: export and exit
+     */
+    function ee()
+    {
+        echo "<pre>";
+        $args = func_get_args();
+
+        if (count($args) == 1) {
+            print_r($args[0]);
+        } else {
+            foreach ($args as $arg) {
+                print_r($arg);
+            }
+        }
+
+        exit();
+    }
+}
+
+
+if (!function_exists('vde')) {
+
+    /********************
+     * vde: var_dump and exit
+     */
+    function vde()
+    {
+        echo "<pre>";
+        $args = func_get_args();
+
+        if (count($args) == 1) {
+            var_dump($args[0]);
+        } else {
+            foreach ($args as $arg) {
+                var_dump($arg);
+            }
+        }
+
+        exit();
+    }
+}
+
+
 if (!function_exists('lg')) {
 
     /**
