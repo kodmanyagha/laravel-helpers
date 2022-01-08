@@ -440,8 +440,11 @@ if (!function_exists('mo')) {
      *
      * Make object.
      */
-    function mo($data = [])
+    function mo($data = stdClass::class)
     {
+        if ($data === stdClass::class)
+            $data = new stdClass();
+
         return json_decode(json_encode($data));
     }
 }
