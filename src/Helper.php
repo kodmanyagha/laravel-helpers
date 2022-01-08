@@ -440,7 +440,7 @@ if (!function_exists('mo')) {
      *
      * Make object.
      */
-    function mo($data)
+    function mo($data = [])
     {
         return json_decode(json_encode($data));
     }
@@ -455,7 +455,7 @@ if (!function_exists('ma')) {
      *
      * Make array.
      */
-    function ma($data, $depth = 512)
+    function ma($data = [], $depth = 512)
     {
         return json_decode(json_encode($data), true, $depth);
     }
