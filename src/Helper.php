@@ -492,9 +492,9 @@ if (!function_exists('o2s')) {
     function o2s($obj, $pretty = false)
     {
         if ($pretty)
-            return json_encode($obj, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            return json_encode($obj, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
-        return json_encode($obj, JSON_UNESCAPED_UNICODE);
+        return json_encode($obj, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
 }
 
