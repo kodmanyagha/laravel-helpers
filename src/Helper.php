@@ -66,7 +66,7 @@ if (!function_exists('makeApiCall')) {
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 
-        if (!env('ALLOW_INSECURE_CURL', false)) {
+        if (env('ALLOW_INSECURE_CURL', false)) {
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         }
