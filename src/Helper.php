@@ -646,6 +646,17 @@ if (!function_exists('vde')) {
 }
 
 
+if (!function_exists('getProtectedProperty')) {
+    function getProtectedProperty($obj, $prop)
+    {
+        $reflection = new ReflectionClass($obj);
+        $property   = $reflection->getProperty($prop);
+        $property->setAccessible(true);
+        return $property->getValue($obj);
+    }
+}
+
+
 if (!function_exists('lg')) {
 
     /**
