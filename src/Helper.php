@@ -81,15 +81,16 @@ if (!function_exists('makeApiCall')) {
             'put',
             'patch'
         ])) {
-            if ($method == 'post')
+            if ($method == 'post') {
                 curl_setopt($ch, CURLOPT_POST, 1);
-            else
+            } else {
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($method));
+            }
 
             if (is_string($postData)) {
                 $headers[] = 'Content-Type: application/x-www-form-urlencoded';
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-            } else if (is_array($postData) || is_object($postData)) {
+            } elseif (is_array($postData) || is_object($postData)) {
                 //$headers[] = 'Content-Type: multipart/form-data';
                 $headers[] = 'Content-Type: application/json';
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
@@ -100,8 +101,9 @@ if (!function_exists('makeApiCall')) {
             curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);
         }
 
-        if (!is_null($bearerToken))
+        if (!is_null($bearerToken)) {
             $headers[] = "Authorization: Bearer " . $bearerToken;
+        }
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_TIMEOUT, 90);
@@ -145,7 +147,7 @@ if (!function_exists('var_dump_str')) {
 }
 
 
-if (!function_exists('pr2json')) {
+if (!function_exists('printr2json')) {
     /**
      * Convert print_r result to json string.
      * @note Exceptions are always there i tried myself best to get it done. Here $array can be array of arrays or arrays of objects or both
@@ -153,7 +155,7 @@ if (!function_exists('pr2json')) {
      * @param bool $returnAsObj
      * @return string Json string (transformed version of print_r result)
      */
-    function pr2json($string, $returnAsObj = false)
+    function printr2json($string, $returnAsObj = false)
     {
         // replacing `stdClass Objects (` to  `{`
         $string = preg_replace("/stdClass Object\s*\(/s", '{  ', $string);
@@ -185,8 +187,10 @@ if (!function_exists('pr2json')) {
         // replacing `} ,` at the end to `}`
         $string = preg_replace("/}\s*,$/s", '}', $string);
 
-        if ($returnAsObj === true)
-            return s2o($string);
+        if ($returnAsObj === true) {
+            return stringToObject($string);
+        }
+
         return $string;
     }
 }
@@ -215,42 +219,6 @@ if (!function_exists('slug')) {
     function slug($str)
     {
         return Str::slug($str);
-    }
-}
-
-
-if (!function_exists('sw')) {
-
-    /********************
-     * sw: starts with
-     *
-     * @param $string string
-     * @param $startString string
-     * @return bool
-     */
-    function sw($string, $startString)
-    {
-        $len = strlen($startString);
-        return (substr($string, 0, $len) === $startString);
-    }
-}
-
-if (!function_exists('ew')) {
-
-    /********************
-     * ew: ends with
-     *
-     * @param $string string
-     * @param $endString string
-     * @return bool
-     */
-    function ew($string, $endString)
-    {
-        $len = strlen($endString);
-        if ($len == 0) {
-            return true;
-        }
-        return (substr($string, -$len) === $endString);
     }
 }
 
@@ -292,14 +260,14 @@ if (!function_exists('endsWith')) {
 }
 
 
-if (!function_exists('gp')) {
+if (!function_exists('getParams')) {
 
     /********************
      * gp: Get Params from route.
      *
      * @return array
      */
-    function gp()
+    function getParams()
     {
         $params = request()->route()->parameters();
         return array_values($params);
@@ -317,12 +285,17 @@ if (!function_exists('randomDate')) {
      */
     function randomDate($minDay, $maxDay)
     {
-        if ((int)$maxDay < (int)$minDay) throw  new \InvalidArgumentException('maxDay has to be greater or equal then minDay');
+        if ((int)$maxDay < (int)$minDay) {
+            throw  new \InvalidArgumentException('maxDay has to be greater or equal then minDay');
+        }
 
         $randomDay = mt_rand($minDay, $maxDay);
 
-        if ($randomDay < 0) $randomDay = '-' . abs($randomDay);
-        else $randomDay = '+' . $randomDay;
+        if ($randomDay < 0) {
+            $randomDay = '-' . abs($randomDay);
+        } else {
+            $randomDay = '+' . $randomDay;
+        }
 
         return date('Y-m-d', strtotime($randomDay . ' days'));
     }
@@ -337,8 +310,12 @@ if (!function_exists('randomDateTime')) {
      */
     function randomDateTime($startDate, $endDate)
     {
-        if (gettype($startDate) == 'string') $startDate = strtotime($startDate);
-        if (gettype($endDate) == 'string') $endDate = strtotime($endDate);
+        if (gettype($startDate) == 'string') {
+            $startDate = strtotime($startDate);
+        }
+        if (gettype($endDate) == 'string') {
+            $endDate = strtotime($endDate);
+        }
 
         $dateInt = mt_rand($startDate, $endDate);
         return date("Y-m-d H:i:s", $dateInt);
@@ -369,20 +346,29 @@ if (!function_exists('println')) {
 }
 
 
-if (!function_exists('pe')) {
+if (!function_exists('printrExit')) {
     /**
      * @param $data
      * print and exit
      */
-    function pe($data, $varDump = false)
+    function printrExit($data, $varDump = false)
     {
         echo "<pre>";
-        if ($varDump === true)
+        if ($varDump === true) {
             var_dump($data);
-        else
+        } else {
             print_r($data);
+        }
 
         exit;
+    }
+}
+
+
+if (!function_exists('flushContinue')) {
+    function flushContinue($data)
+    {
+        continueExecution($data);
     }
 }
 
@@ -438,24 +424,25 @@ if (!function_exists('password')) {
 }
 
 
-if (!function_exists('mo')) {
+if (!function_exists('makeObject')) {
     /**
      * @param $data
      * @return mixed
      *
      * Make object.
      */
-    function mo($data = stdClass::class)
+    function makeObject($data = stdClass::class)
     {
-        if ($data === stdClass::class)
+        if ($data === stdClass::class) {
             $data = new stdClass();
+        }
 
         return json_decode(json_encode($data));
     }
 }
 
 
-if (!function_exists('ma')) {
+if (!function_exists('makeArray')) {
     /**
      * @param mixed $data
      * @param int $depth
@@ -463,14 +450,14 @@ if (!function_exists('ma')) {
      *
      * Make array.
      */
-    function ma($data = [], $depth = 512)
+    function makeArray($data = [], $depth = 512)
     {
         return json_decode(json_encode($data), true, $depth);
     }
 }
 
 
-if (!function_exists('s2o')) {
+if (!function_exists('stringToObject')) {
 
     /**
      * @param string $str
@@ -479,14 +466,14 @@ if (!function_exists('s2o')) {
      *
      * String to object (json)
      */
-    function s2o($str, $assoc = false)
+    function stringToObject($str, $assoc = false)
     {
         return json_decode($str, $assoc);
     }
 }
 
 
-if (!function_exists('o2s')) {
+if (!function_exists('objectToString')) {
 
     /**
      * @param mixed $obj
@@ -494,10 +481,11 @@ if (!function_exists('o2s')) {
      *
      * Object to string
      */
-    function o2s($obj, $pretty = false)
+    function objectToString($obj, $pretty = false)
     {
-        if ($pretty)
+        if ($pretty) {
             return json_encode($obj, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
 
         return json_encode($obj, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
@@ -539,14 +527,17 @@ if (!function_exists('lang')) {
             }
 
             // if we still didn't recognize client's preferred lang then we set it default lang
-            if (strlen($langCode) == 0)
+            if (strlen($langCode) == 0) {
                 $langCode = env('APP_LANG', 'en-US');
+            }
         }
 
-        if (!isset(app('languages')[$langCode]))
+        if (!isset(app('languages')[$langCode])) {
             lgi('Lang not found: ' . $langCode . ' ' . $key);
-        if (!isset(app('languages')[$langCode][$key]))
+        }
+        if (!isset(app('languages')[$langCode][$key])) {
             lgi('Key not found: ' . $langCode . ' ' . $key);
+        }
 
         $key = (isset(app('languages')[$langCode][$key])) ? app('languages')[$langCode][$key] : $key;
         if (count($params) > 0) {
@@ -560,7 +551,7 @@ if (!function_exists('lang')) {
 }
 
 
-if (!function_exists('cts')) {
+if (!function_exists('currentTimeStamp')) {
 
     /********************
      * cts: current time stamp
@@ -576,7 +567,7 @@ if (!function_exists('cts')) {
      * });
      *
      */
-    function cts(&$table)
+    function currentTimeStamp(&$table)
     {
         $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
@@ -584,28 +575,30 @@ if (!function_exists('cts')) {
 }
 
 
-if (!function_exists('rq')) {
+if (!function_exists('randomQuery')) {
 
     /********************
      * rq: random query
      *
      * @return float|object
      */
-    function rq()
+    function randomQuery()
     {
-        if (env('APP_ENV') == 'local')
+        if (env('APP_ENV') == 'local') {
             return microtime(true);
+        }
+
         return date('i');
     }
 }
 
 
-if (!function_exists('ee')) {
+if (!function_exists('exportExit')) {
 
     /********************
      * ee: export and exit
      */
-    function ee()
+    function exportExit()
     {
         echo "<pre>";
         $args = func_get_args();
@@ -623,12 +616,12 @@ if (!function_exists('ee')) {
 }
 
 
-if (!function_exists('vde')) {
+if (!function_exists('varDumpExit')) {
 
     /********************
      * vde: var_dump and exit
      */
-    function vde()
+    function varDumpExit()
     {
         echo "<pre>";
         $args = func_get_args();
@@ -657,23 +650,28 @@ if (!function_exists('getProtectedProperty')) {
 }
 
 
-if (!function_exists('lg')) {
-
+if (!function_exists('logWithFileAndLine')) {
     /**
      * lg: log with file name and line number
      */
-    function lg($anything, $type = 'debug')
+    function logWithFileAndLine($anything, $type = 'debug')
     {
+        if (!in_array($type, ['debug', 'info', 'warning', 'error'])) {
+            throw new InvalidArgumentException('type value not valid.');
+        }
+
         if (!in_array(gettype($anything), [
             'string',
             'number'
         ])) {
-            $anything = o2s($anything, true);
+            $anything = objectToString($anything, true);
         }
         $bt = debug_backtrace();
 
         foreach ($bt as $i => $b) {
-            if ($i > 10) break;
+            if ($i > 10) {
+                break;
+            }
         }
 
         $cwd    = base_path();
@@ -684,8 +682,9 @@ if (!function_exists('lg')) {
             $file   = $caller['file'];
             $file   = substr($file, strlen($cwd));
 
-            if ($file != '/vendor/kodmanyagha/laravel-helpers/src/Helper.php')
+            if ($file != '/vendor/kodmanyagha/laravel-helpers/src/Helper.php') {
                 break;
+            }
         }
 
         $file    = $caller['file'];
@@ -695,66 +694,62 @@ if (!function_exists('lg')) {
 
         // force output to stdout: config(['logging.default' => 'stdout']);
         $logChannel = Log::channel(config('logging.default'));
-
-        if (strtolower($type) == 'debug')
-            $logChannel->debug($message);
-        else if (strtolower($type) == 'info')
-            $logChannel->info($message);
-        else if (strtolower($type) == 'warning')
-            $logChannel->warning($message);
-        else if (strtolower($type) == 'error')
-            $logChannel->error($message);
+        $logChannel->log($type, $message);
     }
 
     /**
      * @param mixed $message
      * Log DEBUG.
      */
-    function lgd($message)
+    function logDebug($message)
     {
         $args = func_get_args();
-        if (count($args) == 1)
-            lg($args[0], 'debug');
-        else
-            lg($args, 'debug');
+        if (count($args) == 1) {
+            logWithFileAndLine($args[0], 'debug');
+        } else {
+            logWithFileAndLine($args, 'debug');
+        }
     }
 
     /**
      * @param mixed $message
      * Log INFO.
      */
-    function lgi($message)
+    function logInfo($message)
     {
         $args = func_get_args();
-        if (count($args) == 1)
-            lg($args[0], 'info');
-        else
-            lg($args, 'info');
+        if (count($args) == 1) {
+            logWithFileAndLine($args[0], 'info');
+        } else {
+            logWithFileAndLine($args, 'info');
+        }
     }
 
     /**
      * @param mixed $message
      * Log WARNING.
      */
-    function lgw($message)
+    function logWarning($message)
     {
         $args = func_get_args();
-        if (count($args) == 1)
-            lg($args[0], 'warning');
-        else
-            lg($args, 'warning');
+        if (count($args) == 1) {
+            logWithFileAndLine($args[0], 'warning');
+        } else {
+            logWithFileAndLine($args, 'warning');
+        }
     }
 
     /**
      * @param mixed $message
      * Log ERROR.
      */
-    function lge($message)
+    function logError($message)
     {
         $args = func_get_args();
-        if (count($args) == 1)
-            lg($args[0], 'error');
-        else
-            lg($args, 'error');
+        if (count($args) == 1) {
+            logWithFileAndLine($args[0], 'error');
+        } else {
+            logWithFileAndLine($args, 'error');
+        }
     }
 }
