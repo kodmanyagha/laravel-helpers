@@ -9,6 +9,7 @@ if (!function_exists('getOnlyNumbers')) {
     /**
      * @param $string
      * @param int $length
+     *
      * @return false|string
      *
      * Extract numbers from a string.
@@ -23,10 +24,10 @@ if (!function_exists('getOnlyNumbers')) {
     }
 }
 
-
 if (!function_exists('priceFormat')) {
     /**
      * @param $number
+     *
      * @return string
      *
      * Return price as english format.
@@ -37,7 +38,6 @@ if (!function_exists('priceFormat')) {
     }
 }
 
-
 if (!function_exists('makeApiCall')) {
     /**
      * @param $url
@@ -47,6 +47,7 @@ if (!function_exists('makeApiCall')) {
      * @param null $password
      * @param null $cookieFile
      * @param null $bearerToken
+     *
      * @return array
      *
      * Return result as array which contains headers and body.
@@ -79,7 +80,7 @@ if (!function_exists('makeApiCall')) {
         if (in_array($method, [
             'post',
             'put',
-            'patch'
+            'patch',
         ])) {
             if ($method == 'post') {
                 curl_setopt($ch, CURLOPT_POST, 1);
@@ -118,13 +119,12 @@ if (!function_exists('makeApiCall')) {
 
         curl_close($ch);
 
-        return array(
+        return [
             "header" => $header,
-            "body"   => $body
-        );
+            "body"   => $body,
+        ];
     }
 }
-
 
 if (!function_exists('var_dump_str')) {
     /**
@@ -146,13 +146,14 @@ if (!function_exists('var_dump_str')) {
     }
 }
 
-
 if (!function_exists('printr2json')) {
     /**
      * Convert print_r result to json string.
      * @note Exceptions are always there i tried myself best to get it done. Here $array can be array of arrays or arrays of objects or both
+     *
      * @param string $string Result of `print_r($array, true)`
      * @param bool $returnAsObj
+     *
      * @return string Json string (transformed version of print_r result)
      */
     function printr2json($string, $returnAsObj = false)
@@ -195,7 +196,6 @@ if (!function_exists('printr2json')) {
     }
 }
 
-
 if (!function_exists('isLocal')) {
     /**
      * @return bool
@@ -208,10 +208,10 @@ if (!function_exists('isLocal')) {
     }
 }
 
-
 if (!function_exists('slug')) {
     /**
      * @param string $str
+     *
      * @return string
      *
      * Convert string to english slug.
@@ -222,11 +222,11 @@ if (!function_exists('slug')) {
     }
 }
 
-
 if (!function_exists('startsWith')) {
     /**
      * @param $string
      * @param $startString
+     *
      * @return bool
      *
      * Function to check string starting
@@ -239,11 +239,11 @@ if (!function_exists('startsWith')) {
     }
 }
 
-
 if (!function_exists('endsWith')) {
     /**
      * @param $string
      * @param $endString
+     *
      * @return bool
      *
      * Function to check the string is ends
@@ -259,7 +259,6 @@ if (!function_exists('endsWith')) {
     }
 }
 
-
 if (!function_exists('getParams')) {
 
     /********************
@@ -274,11 +273,11 @@ if (!function_exists('getParams')) {
     }
 }
 
-
 if (!function_exists('randomDate')) {
     /**
      * @param $minDay
      * @param $maxDay
+     *
      * @return false|string
      *
      * Parameters can be negative.
@@ -301,11 +300,11 @@ if (!function_exists('randomDate')) {
     }
 }
 
-
 if (!function_exists('randomDateTime')) {
     /**
      * @param $startDate
      * @param $endDate
+     *
      * @return false|string
      */
     function randomDateTime($startDate, $endDate)
@@ -322,7 +321,6 @@ if (!function_exists('randomDateTime')) {
     }
 }
 
-
 if (!function_exists('mysqlNow')) {
     /**
      * @return string
@@ -332,7 +330,6 @@ if (!function_exists('mysqlNow')) {
         return date("Y-m-d H:i:s");
     }
 }
-
 
 if (!function_exists('println')) {
     /**
@@ -344,7 +341,6 @@ if (!function_exists('println')) {
         echo $data . PHP_EOL;
     }
 }
-
 
 if (!function_exists('printrExit')) {
     /**
@@ -364,14 +360,12 @@ if (!function_exists('printrExit')) {
     }
 }
 
-
 if (!function_exists('flushContinue')) {
     function flushContinue($data)
     {
         continueExecution($data);
     }
 }
-
 
 if (!function_exists('continueExecution')) {
     function continueExecution($data)
@@ -409,10 +403,10 @@ if (!function_exists('continueExecution')) {
     }
 }
 
-
 if (!function_exists('password')) {
     /**
      * @param $password
+     *
      * @return string
      *
      * Create hash from password with salt (APP_KEY).
@@ -423,10 +417,10 @@ if (!function_exists('password')) {
     }
 }
 
-
 if (!function_exists('makeObject')) {
     /**
      * @param $data
+     *
      * @return mixed
      *
      * Make object.
@@ -441,11 +435,11 @@ if (!function_exists('makeObject')) {
     }
 }
 
-
 if (!function_exists('makeArray')) {
     /**
      * @param mixed $data
      * @param int $depth
+     *
      * @return mixed
      *
      * Make array.
@@ -456,12 +450,12 @@ if (!function_exists('makeArray')) {
     }
 }
 
-
 if (!function_exists('stringToObject')) {
 
     /**
      * @param string $str
      * @param boolean $assoc
+     *
      * @return mixed
      *
      * String to object (json)
@@ -472,11 +466,11 @@ if (!function_exists('stringToObject')) {
     }
 }
 
-
 if (!function_exists('objectToString')) {
 
     /**
      * @param mixed $obj
+     *
      * @return string
      *
      * Object to string
@@ -484,19 +478,22 @@ if (!function_exists('objectToString')) {
     function objectToString($obj, $pretty = false)
     {
         if ($pretty) {
-            return json_encode($obj, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            // Set default indentation from 4 to 2 spaces.
+            return preg_replace_callback('/^ +/m', function ($m) {
+                return str_repeat(' ', strlen($m[0]) / 2);
+            }, json_encode($obj, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
         }
 
         return json_encode($obj, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
 }
 
-
 if (!function_exists('lang')) {
     /**
      * @param string $key
      * @param array $params
      * @param string|null $langCode
+     *
      * @return string
      *
      * Example usage:
@@ -550,7 +547,6 @@ if (!function_exists('lang')) {
     }
 }
 
-
 if (!function_exists('currentTimeStamp')) {
 
     /********************
@@ -574,7 +570,6 @@ if (!function_exists('currentTimeStamp')) {
     }
 }
 
-
 if (!function_exists('randomQuery')) {
 
     /********************
@@ -591,7 +586,6 @@ if (!function_exists('randomQuery')) {
         return date('i');
     }
 }
-
 
 if (!function_exists('exportExit')) {
 
@@ -615,7 +609,6 @@ if (!function_exists('exportExit')) {
     }
 }
 
-
 if (!function_exists('varDumpExit')) {
 
     /********************
@@ -638,6 +631,25 @@ if (!function_exists('varDumpExit')) {
     }
 }
 
+if (!function_exists('runTimeDetect')) {
+
+    /**
+     * Example usage:
+     *     [$totalTime, $result] = runTimeDetect(fn() => longExecFunction($param1, $param2));
+     *
+     * @param Closure $closure
+     * @param int $decimal
+     *
+     * @return array
+     */
+    function runTimeDetect(Closure $closure, $decimal = 2)
+    {
+        $startTime = microtime(true);
+        $result    = $closure();
+        $totalTime = microtime(true) - $startTime;
+        return [(float)number_format($totalTime, $decimal), $result];
+    }
+}
 
 if (!function_exists('getProtectedProperty')) {
     function getProtectedProperty($obj, $prop)
@@ -648,7 +660,6 @@ if (!function_exists('getProtectedProperty')) {
         return $property->getValue($obj);
     }
 }
-
 
 if (!function_exists('logWithFileAndLine')) {
     /**
@@ -662,7 +673,7 @@ if (!function_exists('logWithFileAndLine')) {
 
         if (!in_array(gettype($anything), [
             'string',
-            'number'
+            'number',
         ])) {
             $anything = objectToString($anything, true);
         }
