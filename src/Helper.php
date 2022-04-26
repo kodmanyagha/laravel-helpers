@@ -530,10 +530,10 @@ if (!function_exists('lang')) {
         }
 
         if (!isset(app('languages')[$langCode])) {
-            lgi('Lang not found: ' . $langCode . ' ' . $key);
+            logInfo('Lang not found: ' . $langCode . ' ' . $key);
         }
         if (!isset(app('languages')[$langCode][$key])) {
-            lgi('Key not found: ' . $langCode . ' ' . $key);
+            logInfo('Key not found: ' . $langCode . ' ' . $key);
         }
 
         $key = (isset(app('languages')[$langCode][$key])) ? app('languages')[$langCode][$key] : $key;

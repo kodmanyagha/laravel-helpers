@@ -23,25 +23,23 @@ There isn't any configuration. Just install it.
 ## Available Functions
 
 ```
-ma($anything)        Make array.
-mo($anything)        Make object.
+makeArray($anything)         Make array.
+makeObject($anything)        Make object.
 
-s2o($string)         String to Object.
-o2s($object)         Object to Json string.
+stringToObject($string)      String to Object.
+objectToString($object)      Object to Json string.
 
-lgd(...$args)        Log::debug()
-lgi(...$args)        Log::info()
-lgw(...$args)        Log::warn()
-lge(...$args)        Log::error()
+logDebug(...$args)           Log::debug()
+logInfo(...$args)            Log::info()
+logWarning(...$args)         Log::warn()
+logError(...$args)           Log::error()
 
-password()           Generate password with APP_KEY salt.
-pe()                 print_r and exit.
-println($str)        Print string with PHP_EOL.
-mysqlNow()           Current date and time with Mysql format.
+password()                   Generate password with APP_KEY salt.
+printrExit()                 print_r and exit.
+println($str)                Print string with PHP_EOL.
+mysqlNow()                   Current date and time with Mysql format.
 randomDateTime($start, $end)
 randomDate($start, $end)
-
-
 ```
 
 
