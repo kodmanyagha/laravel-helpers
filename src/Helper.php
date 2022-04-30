@@ -53,8 +53,8 @@ if (!function_exists('makeApiCall')) {
      * Return result as array which contains headers and body.
      */
     function makeApiCall($url, $method = 'get', $postData = null,
-                         $username = null, $password = null,
-                         $cookieFile = null, $bearerToken = null)
+        $username = null, $password = null,
+        $cookieFile = null, $bearerToken = null)
     {
         $method  = strtolower($method);
         $headers = [];
@@ -648,6 +648,28 @@ if (!function_exists('runTimeDetect')) {
         $result    = $closure();
         $totalTime = microtime(true) - $startTime;
         return [(float)number_format($totalTime, $decimal), $result];
+    }
+}
+
+if (!function_exists('uniqidReal')) {
+
+    /**
+     * PHP's uniqid() function is not creating unique id in loop.
+     * Detailed explanation:  https://www.php.net/manual/tr/function.uniqid.php#120123
+     *
+     * @throws Exception
+     */
+    function uniqidReal($lenght = 13)
+    {
+        // uniqid gives 13 chars, but you could adjust it to your needs.
+        if (function_exists("random_bytes")) {
+            $bytes = random_bytes(ceil($lenght / 2));
+        } elseif (function_exists("openssl_random_pseudo_bytes")) {
+            $bytes = openssl_random_pseudo_bytes(ceil($lenght / 2));
+        } else {
+            throw new Exception("No cryptographically secure random function available.");
+        }
+        return substr(bin2hex($bytes), 0, $lenght);
     }
 }
 
