@@ -52,12 +52,12 @@ if (!function_exists('makeApiCall')) {
      *
      * Return result as array which contains headers and body.
      */
-    function makeApiCall($url, $method = 'get', $postData = null,
+    function makeApiCall($url, $method = 'get',
+        $postData = null, $headers = [],
         $username = null, $password = null,
         $cookieFile = null, $bearerToken = null)
     {
-        $method  = strtolower($method);
-        $headers = [];
+        $method = strtolower($method);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
