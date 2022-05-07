@@ -43,6 +43,7 @@ if (!function_exists('makeApiCall')) {
      * @param $url
      * @param string $method
      * @param null $postData
+     * @param array|null $headers
      * @param null $username
      * @param null $password
      * @param null $cookieFile
@@ -57,7 +58,8 @@ if (!function_exists('makeApiCall')) {
         $username = null, $password = null,
         $cookieFile = null, $bearerToken = null)
     {
-        $method = strtolower($method);
+        $headers = !is_array($headers) ? array_values(makeArray($headers)) : array_values($headers);
+        $method  = strtolower($method);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
