@@ -58,14 +58,20 @@ if (!function_exists('makeApiCall')) {
         $username = null, $password = null,
         $cookieFile = null, $bearerToken = null)
     {
-        $headers = !is_array($headers) ? array_values(makeArray($headers)) : array_values($headers);
-        $method  = strtolower($method);
+        $headers   = !is_array($headers) ? array_values(makeArray($headers)) : array_values($headers);
+        $headers[] = 'Connection: close';
+
+        $method = strtolower($method);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_VERBOSE, env('CURL_VERBOSE', false));
         curl_setopt($ch, CURLOPT_HEADER, 1);
+
+        curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
+        curl_setopt($ch, CURLOPT_TCP_KEEPALIVE, 0);
+
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 
@@ -109,7 +115,7 @@ if (!function_exists('makeApiCall')) {
         }
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 90);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         curl_setopt($ch, CURLOPT_USERAGENT,
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36');
 
@@ -120,6 +126,7 @@ if (!function_exists('makeApiCall')) {
         $body        = substr($result, $header_size);
 
         curl_close($ch);
+        unset($ch);
 
         return [
             "header" => $header,
