@@ -651,7 +651,7 @@ if (!function_exists('runTimeDetect')) {
      *
      * @return array
      */
-    function runTimeDetect(Closure $closure, $decimal = 2)
+    function runTimeDetect(Closure $closure, $decimal = 4)
     {
         $startTime = microtime(true);
         $result    = $closure();
