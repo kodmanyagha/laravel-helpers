@@ -1,5 +1,6 @@
 <?php
 
+use ___PHPSTORM_HELPERS\object;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -657,6 +658,20 @@ if (!function_exists('runTimeDetect')) {
         $result    = $closure();
         $totalTime = microtime(true) - $startTime;
         return [(float)number_format($totalTime, $decimal), $result];
+    }
+}
+
+if (!function_exists('getPrivateProperty')) {
+
+    function getPrivateProperty(object $object, string $property): mixed
+    {
+        return Closure::bind(
+            function () use ($property) {
+                return $this->$property;
+            },
+            $object,
+            $object
+        )();
     }
 }
 
