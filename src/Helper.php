@@ -1,6 +1,5 @@
 <?php
 
-use ___PHPSTORM_HELPERS\object;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -663,7 +662,7 @@ if (!function_exists('runTimeDetect')) {
 
 if (!function_exists('getPrivateProperty')) {
 
-    function getPrivateProperty(object $object, string $property): mixed
+    function getPrivateProperty($object, string $property)
     {
         return Closure::bind(
             function () use ($property) {
