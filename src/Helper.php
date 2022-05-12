@@ -155,6 +155,30 @@ if (!function_exists('var_dump_str')) {
     }
 }
 
+if (!function_exists('arrayToObject')) {
+    /**
+     */
+    function arrayToObject(array $arr, string $class, string $case = 'pascal')
+    {
+        $obj = new $class();
+        foreach ($arr as $key => $val) {
+            if (is_numeric($key)) {
+                $key = '_numeric_' . $key;
+            }
+
+            if ($case == 'snake') {
+                $key = Str::of($key)->snake();
+            } elseif ($case == 'camel') {
+                $key = Str::of($key)->camel();
+            }
+
+            $obj->$key = $val;
+        }
+
+        return $obj;
+    }
+}
+
 if (!function_exists('printr2json')) {
     /**
      * Convert print_r result to json string.
