@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-
 if (!function_exists('getOnlyNumbers')) {
     /**
      * @param $string
@@ -158,10 +157,10 @@ if (!function_exists('var_dump_str')) {
 if (!function_exists('arrayToObject')) {
     /**
      */
-    function arrayToObject(array $arr, string $class, string $case = 'pascal')
+    function arrayToObject(array $array, string $class, string $case = 'pascal')
     {
         $obj = new $class();
-        foreach ($arr as $key => $val) {
+        foreach ($array as $key => $val) {
             if (is_numeric($key)) {
                 $key = '_numeric_' . $key;
             }
@@ -176,6 +175,28 @@ if (!function_exists('arrayToObject')) {
         }
 
         return $obj;
+    }
+}
+
+if (!function_exists('arrayToObjectKeys')) {
+    /**
+     * @throws ReflectionException
+     */
+    function arrayToObjectKeys(array $array, string $class)
+    {
+        $reflectionClass = new ReflectionClass($class);
+        $object          = $reflectionClass->newInstanceWithoutConstructor();
+        $properties      = $reflectionClass->getProperties();
+
+        foreach ($properties as $property) {
+            $property->setAccessible(true);
+
+            if (isset($array[$property->name])) {
+                $property->setValue($object, $array[$property->name]);
+            }
+        }
+
+        return $object;
     }
 }
 
