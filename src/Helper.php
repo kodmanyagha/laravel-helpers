@@ -134,6 +134,18 @@ if (!function_exists('makeApiCall')) {
     }
 }
 
+if (!function_exists('msleep')) {
+
+    /********************
+     * millisecond sleep
+     */
+    function msleep(float $secondFloat)
+    {
+        $secondFloat = (int)($secondFloat * 1000000);
+        usleep($secondFloat);
+    }
+}
+
 if (!function_exists('var_dump_str')) {
     /**
      * @return false|string
