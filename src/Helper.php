@@ -486,7 +486,7 @@ if (!function_exists('password')) {
      */
     function password($password)
     {
-        return sha1(md5($password . config('app.key')));
+        return sha1(sha1($password . config('app.key')));
     }
 }
 
