@@ -4,6 +4,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+if (!function_exists('cpuRandomStr')) {
+    function cpuRandomStr()
+    {
+        return md5(json_encode(getrusage()));
+    }
+}
+
 if (!function_exists('getOnlyNumbers')) {
     /**
      * @param $string
@@ -65,7 +72,7 @@ if (!function_exists('makeApiCall')) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_VERBOSE, env('CURL_VERBOSE', false));
+        curl_setopt($ch, CURLOPT_VERBOSE, config('app.curl_verbose', false));
         curl_setopt($ch, CURLOPT_HEADER, 1);
 
         curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
@@ -74,7 +81,7 @@ if (!function_exists('makeApiCall')) {
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 
-        if (env('ALLOW_INSECURE_CURL', false) || env('CURL_ALLOW_INSECURE', false)) {
+        if ((int)config('app.allow_insecure_curl') === 1) {
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         }
@@ -270,7 +277,7 @@ if (!function_exists('isLocal')) {
      */
     function isLocal()
     {
-        return env('APP_ENV') == 'local';
+        return config('app.env') == 'local';
     }
 }
 
@@ -479,7 +486,7 @@ if (!function_exists('password')) {
      */
     function password($password)
     {
-        return sha1(md5($password . env('APP_KEY')));
+        return sha1(md5($password . config('app.key')));
     }
 }
 
@@ -591,7 +598,7 @@ if (!function_exists('lang')) {
 
             // if we still didn't recognize client's preferred lang then we set it default lang
             if (strlen($langCode) == 0) {
-                $langCode = env('APP_LANG', 'en-US');
+                $langCode = config('app.locale', 'en');
             }
         }
 
@@ -645,7 +652,7 @@ if (!function_exists('randomQuery')) {
      */
     function randomQuery()
     {
-        if (env('APP_ENV') == 'local') {
+        if (config('app.env') == 'local') {
             return microtime(true);
         }
 
