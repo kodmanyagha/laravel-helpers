@@ -60,9 +60,9 @@ if (!function_exists('makeApiCall')) {
      * Return result as array which contains headers and body.
      */
     function makeApiCall($url, $method = 'get',
-        $postData = null, $headers = [],
-        $username = null, $password = null,
-        $cookieFile = null, $bearerToken = null)
+                         $postData = null, $headers = [],
+                         $username = null, $password = null,
+                         $cookieFile = null, $bearerToken = null)
     {
         $headers   = !is_array($headers) ? array_values(makeArray($headers)) : array_values($headers);
         $headers[] = 'Connection: close';
@@ -401,6 +401,17 @@ if (!function_exists('mysqlNow')) {
     function mysqlNow()
     {
         return date("Y-m-d H:i:s");
+    }
+}
+
+if (!function_exists('strToDate')) {
+    /**
+     * @param string $str
+     * @return string
+     */
+    function strToDate(string $str)
+    {
+        return date("Y-m-d H:i:s", strtotime($str));
     }
 }
 
