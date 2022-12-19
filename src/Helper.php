@@ -781,6 +781,20 @@ if (!function_exists('getProtectedProperty')) {
     }
 }
 
+if (!function_exists('getClassShortName')) {
+    /**
+     * @throws ReflectionException
+     */
+    function getClassShortName(mixed $classOrObject): string
+    {
+        $reflection = is_string($classOrObject)
+            ? new ReflectionClass($classOrObject)
+            : new ReflectionObject($classOrObject);
+
+        return $reflection->getShortName();
+    }
+}
+
 if (!function_exists('logWithFileAndLine')) {
     /**
      * lg: log with file name and line number
