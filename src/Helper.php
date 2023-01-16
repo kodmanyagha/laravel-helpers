@@ -59,13 +59,19 @@ if (!function_exists('makeApiCall')) {
      *
      * Return result as array which contains headers and body.
      */
-    function makeApiCall($url, $method = 'get',
-                         $postData = null, $headers = [],
-                         $username = null, $password = null,
-                         $cookieFile = null, $bearerToken = null)
+    function makeApiCall(
+        $url, string $method = 'get',
+        $postData = null, ?array $headers = [],
+        $username = null, $password = null,
+        $cookieFile = null, $bearerToken = null
+    )
     {
         $headers   = !is_array($headers) ? array_values(makeArray($headers)) : array_values($headers);
         $headers[] = 'Connection: close';
+
+        $host = parse_url($url, PHP_URL_HOST);
+        $port = (int)parse_url($url, PHP_URL_PORT);
+        $port = $port > 0 ? $port : 80;
 
         $method = strtolower($method);
 
@@ -74,6 +80,8 @@ if (!function_exists('makeApiCall')) {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_VERBOSE, config('app.curl_verbose', false));
         curl_setopt($ch, CURLOPT_HEADER, 1);
+
+        curl_setopt($ch, CURLOPT_RESOLVE, [sprintf("%s:%d:%s", $host, $port, '8.8.8.8')]);
 
         curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
         curl_setopt($ch, CURLOPT_TCP_KEEPALIVE, 0);
