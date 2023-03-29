@@ -4,6 +4,31 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+
+if (!function_exists('heredocCall')) {
+
+    /**
+     * Use this in `HEREDOC` strings. Example:
+     *
+     * $call = heredocCall()
+     *
+     * $text = <<<HEREDOC
+     * Hello, {$call(ucfirst('world'))}
+     * HEREDOC;
+     *
+     * $text = <<<HTML
+     * <li class="list-group-item p-1">
+     * {$c(__('app.permissions.' . $row->name))}
+     * </li>
+     * HTML;
+     *
+     */
+    function heredocCall(): Closure
+    {
+        return fn($fn) => $fn;
+    }
+}
+
 if (!function_exists('cpuRandomStr')) {
     function cpuRandomStr()
     {
