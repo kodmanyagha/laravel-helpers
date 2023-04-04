@@ -5,6 +5,17 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 
+
+if (!function_exists('base64_image')) {
+    function base64_image($path)
+    {
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        return 'data:image/' . $type . ';base64,' . base64_encode($data);
+    }
+}
+
+
 if (!function_exists('heredocCall')) {
 
     /**
