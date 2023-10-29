@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 
-
 if (!function_exists('base64_image')) {
     function base64_image($path)
     {
@@ -102,7 +101,7 @@ if (!function_exists('makeApiCall')) {
         $cookieFile = null, $bearerToken = null
     )
     {
-        $headers   = !is_array($headers) ? array_values(makeArray($headers)) : array_values($headers);
+        $headers = !is_array($headers) ? array_values(makeArray($headers)) : array_values($headers);
         $headers[] = 'Connection: close';
 
         $host = parse_url($url, PHP_URL_HOST);
@@ -172,15 +171,15 @@ if (!function_exists('makeApiCall')) {
         $result = curl_exec($ch);
 
         $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        $header      = substr($result, 0, $header_size);
-        $body        = substr($result, $header_size);
+        $header = substr($result, 0, $header_size);
+        $body = substr($result, $header_size);
 
         curl_close($ch);
         unset($ch);
 
         return [
             "header" => $header,
-            "body"   => $body,
+            "body" => $body,
         ];
     }
 }
@@ -248,8 +247,8 @@ if (!function_exists('arrayToObjectKeys')) {
     function arrayToObjectKeys(array $array, string $class)
     {
         $reflectionClass = new ReflectionClass($class);
-        $object          = $reflectionClass->newInstanceWithoutConstructor();
-        $properties      = $reflectionClass->getProperties();
+        $object = $reflectionClass->newInstanceWithoutConstructor();
+        $properties = $reflectionClass->getProperties();
 
         foreach ($properties as $property) {
             $property->setAccessible(true);
@@ -773,7 +772,7 @@ if (!function_exists('runTimeDetect')) {
     function runTimeDetect(Closure $closure, $decimal = 4)
     {
         $startTime = microtime(true);
-        $result    = $closure();
+        $result = $closure();
         $totalTime = microtime(true) - $startTime;
         return [(float)number_format($totalTime, $decimal), $result];
     }
@@ -798,20 +797,24 @@ if (!function_exists('uniqidReal')) {
     /**
      * PHP's uniqid() function is not creating unique id in loop.
      * Detailed explanation:  https://www.php.net/manual/tr/function.uniqid.php#120123
-     *
-     * @throws Exception
      */
-    function uniqidReal($lenght = 13)
+    function uniqidReal($lenght = 13): string
     {
-        // uniqid gives 13 chars, but you could adjust it to your needs.
-        if (function_exists("random_bytes")) {
-            $bytes = random_bytes(ceil($lenght / 2));
-        } elseif (function_exists("openssl_random_pseudo_bytes")) {
-            $bytes = openssl_random_pseudo_bytes(ceil($lenght / 2));
-        } else {
-            throw new Exception("No cryptographically secure random function available.");
+        try {
+            // uniqid gives 13 chars, but you could adjust it to your needs.
+            if (function_exists("random_bytes")) {
+                $bytes = random_bytes((int)ceil($lenght / 2));
+            } elseif (function_exists("openssl_random_pseudo_bytes")) {
+                $bytes = openssl_random_pseudo_bytes((int)ceil($lenght / 2));
+            } else {
+                throw new Exception();
+            }
+            return substr(bin2hex($bytes), 0, $lenght);
+        } catch (Throwable $throwable) {
         }
-        return substr(bin2hex($bytes), 0, $lenght);
+
+        $rand = sha1(hrtime(true) . microtime(true));
+        return substr($rand, 0, $lenght);
     }
 }
 
@@ -819,7 +822,7 @@ if (!function_exists('getProtectedProperty')) {
     function getProtectedProperty($obj, $prop)
     {
         $reflection = new ReflectionClass($obj);
-        $property   = $reflection->getProperty($prop);
+        $property = $reflection->getProperty($prop);
         $property->setAccessible(true);
         return $property->getValue($obj);
     }
@@ -863,22 +866,22 @@ if (!function_exists('logWithFileAndLine')) {
             }
         }
 
-        $cwd    = base_path();
+        $cwd = base_path();
         $cellar = null;
-        $file   = null;
+        $file = null;
         for ($i = 0; $i < 5; $i++) {
             $caller = array_shift($bt);
-            $file   = $caller['file'];
-            $file   = substr($file, strlen($cwd));
+            $file = $caller['file'];
+            $file = substr($file, strlen($cwd));
 
             if ($file != '/vendor/kodmanyagha/laravel-helpers/src/Helper.php') {
                 break;
             }
         }
 
-        $file    = $caller['file'];
-        $line    = $caller['line'];
-        $file    = substr($file, strlen($cwd));
+        $file = $caller['file'];
+        $line = $caller['line'];
+        $file = substr($file, strlen($cwd));
         $message = $file . ':' . $line . ' ' . $anything;
 
         // force output to stdout: config(['logging.default' => 'stdout']);
