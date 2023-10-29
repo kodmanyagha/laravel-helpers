@@ -800,8 +800,8 @@ if (!function_exists('uniqidReal')) {
      */
     function uniqidReal($lenght = 13): string
     {
+        // uniqid gives 13 chars, but you could adjust it to your needs.
         try {
-            // uniqid gives 13 chars, but you could adjust it to your needs.
             if (function_exists("random_bytes")) {
                 $bytes = random_bytes((int)ceil($lenght / 2));
             } elseif (function_exists("openssl_random_pseudo_bytes")) {
@@ -819,6 +819,9 @@ if (!function_exists('uniqidReal')) {
 }
 
 if (!function_exists('getProtectedProperty')) {
+    /**
+     * @throws ReflectionException
+     */
     function getProtectedProperty($obj, $prop)
     {
         $reflection = new ReflectionClass($obj);
