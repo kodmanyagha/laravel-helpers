@@ -1,32 +1,33 @@
 {
-    "name": "kodmanyagha/laravel-helpers",
-    "description": "Helper functions for Laravel and Lumen frameworks.",
-    "type": "library",
-    "version": "2.4.1-dev",
-    "require": {
-        "illuminate/support": "^5.5|^6.0|^7.0|^8.0|^8.17|^v9.0|^v9.2|^v10",
-        "illuminate/console": "^5.5|^6.0|^7.0|^8.0|^8.17|^v9|^v10",
-        "illuminate/database": "^5.5|^6.0|^7.0|^8.0|^8.17|^v9|^v10",
-        "illuminate/filesystem": "^5.5|^6.0|^7.0|^8.0|^8.17|^v9|^v10",
-        "psy/psysh": "0.9.*|0.10.*|0.11.*",
-        "classpreloader/classpreloader": "^3.0|^4.0",
-        "ext-json": "*",
-        "ext-curl": "*",
-        "php": "^8.0|^8.1|^8.2"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Emir Buğra Köksalan",
-            "email": "kodmanyagha@gmail.com"
-        }
-    ],
-    "autoload": {
-        "files": [
-            "src/Helper.php"
-        ]
-    },
-    "suggest": {
-        "anik/form-request": "Required to use form request in Lumen."
+  "name": "kodmanyagha/laravel-helpers",
+  "description": "Helper functions for Laravel and Lumen frameworks.",
+  "type": "library",
+  "version": "2.4.1-dev",
+  "require": {
+    "illuminate/support": "^5.5|^6.0|^7.0|^8.0|^8.17|^v9.0|^v9.2|^v10",
+    "illuminate/console": "^5.5|^6.0|^7.0|^8.0|^8.17|^v9|^v10",
+    "illuminate/database": "^5.5|^6.0|^7.0|^8.0|^8.17|^v9|^v10",
+    "illuminate/filesystem": "^5.5|^6.0|^7.0|^8.0|^8.17|^v9|^v10",
+    "psy/psysh": "0.9.*|0.10.*|0.11.*",
+    "classpreloader/classpreloader": "^3.0|^4.0",
+    "ext-json": "*",
+    "ext-curl": "*",
+    "php": "^8.0|^8.1|^8.2|^8.3",
+    "ext-mysqli": "*"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Emir Buğra Köksalan",
+      "email": "kodmanyagha@gmail.com"
     }
+  ],
+  "autoload": {
+    "files": [
+      "src/Helper.php"
+    ]
+  },
+  "suggest": {
+    "anik/form-request": "Required to use form request in Lumen."
+  }
 }

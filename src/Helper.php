@@ -845,6 +845,64 @@ if (!function_exists('getClassShortName')) {
     }
 }
 
+
+if (!function_exists('importCsvMysql')) {
+
+    /**
+     * @throws Exception
+     */
+    function importCsvMysql(
+        string $sourceFileFullPath,
+        string $tableName,
+        array $columns,
+        bool $ignoreFirstRow = true,
+        string $fieldSeparator = ';'
+    ): bool
+    {
+        $defaultMysqlDataPath = 'docker/volumes/mysql/';
+
+        $defaultConnection = config('database.default');
+        $mysqlConfig = config('database.connections.' . $defaultConnection);
+        $loadInfilePath = $mysqlConfig["load_infile_path"];
+
+        $columnsStr = implode(', ', array_values($columns));
+        $ignoreStr = $ignoreFirstRow ? '' : 'IGNORE 1 ROWS';
+        $sourceFilePath = $sourceFileFullPath;
+
+        $targetFileName = md5(random_bytes(32)) . '.csv';
+        $targetFilePath = base_path($defaultMysqlDataPath . $targetFileName);
+
+        copy($sourceFilePath, $targetFilePath);
+
+        $sql = <<<SQL
+LOAD DATA INFILE
+'$loadInfilePath/$targetFileName'
+IGNORE INTO TABLE `$tableName`
+FIELDS TERMINATED BY '$fieldSeparator'
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+
+    $ignoreStr
+
+($columnsStr);
+
+SQL;
+
+        $conn = mysqli_connect(
+            $mysqlConfig['host'],
+            $mysqlConfig['username'],
+            $mysqlConfig['password'],
+            $mysqlConfig['database'],
+            (int)$mysqlConfig['port']
+        );
+        $queryResult = mysqli_query($conn, $sql);
+        mysqli_close($conn);
+
+        return (bool)$queryResult;
+    }
+}
+
+
 if (!function_exists('logWithFileAndLine')) {
     /**
      * lg: log with file name and line number
