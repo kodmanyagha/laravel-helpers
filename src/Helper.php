@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-
 if (!function_exists('base64_image')) {
     function base64_image($path)
     {
@@ -13,7 +12,6 @@ if (!function_exists('base64_image')) {
         return 'data:image/' . $type . ';base64,' . base64_encode($data);
     }
 }
-
 
 if (!function_exists('heredocCall')) {
 
@@ -450,6 +448,7 @@ if (!function_exists('mysqlNow')) {
 if (!function_exists('strToDate')) {
     /**
      * @param string $str
+     *
      * @return string
      */
     function strToDate(string $str)
@@ -845,7 +844,6 @@ if (!function_exists('getClassShortName')) {
     }
 }
 
-
 if (!function_exists('importCsvMysql')) {
 
     /**
@@ -901,7 +899,6 @@ SQL;
         return (bool)$queryResult;
     }
 }
-
 
 if (!function_exists('logWithFileAndLine')) {
     /**
