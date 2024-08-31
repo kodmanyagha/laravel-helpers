@@ -2,7 +2,7 @@
     "name": "kodmanyagha/laravel-helpers",
     "description": "Helper functions for Laravel and Lumen frameworks.",
     "type": "library",
-    "version": "11.0.3",
+    "version": "11.0.4-dev",
     "require": {
         "illuminate/support": "^8.17|^v9.0|^v9.2|^v10|^v11",
         "illuminate/console": "^8.0|^8.17|^v9|^v10|^v11",
