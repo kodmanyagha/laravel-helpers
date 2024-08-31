@@ -4,7 +4,7 @@
     "type": "library",
     "version": "11.0.2-dev",
     "require": {
-        "illuminate/support": "^8.17|^v9.0|^v9.2|^v10",
+        "illuminate/support": "^8.17|^v9.0|^v9.2|^v10|^v11",
         "illuminate/console": "^8.0|^8.17|^v9|^v10|^v11",
         "illuminate/database": "^8.0|^8.17|^v9|^v10|^v11",
         "illuminate/filesystem": "^8.0|^8.17|^v9|^v10|^v11",
