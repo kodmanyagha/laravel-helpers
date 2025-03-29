@@ -1,0 +1,15 @@
+{
+    "editor.tabSize": 4,
+    "[javascript]": {
+        "editor.maxTokenizationLineLength": 2500,
+        "editor.tabSize": 2
+    },
+    "[typescript]": {
+        "editor.maxTokenizationLineLength": 2500,
+        "editor.tabSize": 2
+    },
+    "[css]": {
+        "editor.maxTokenizationLineLength": 2500,
+        "editor.tabSize": 2
+    },
+}

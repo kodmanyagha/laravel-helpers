@@ -73,7 +73,7 @@ if (!function_exists('priceFormat')) {
      */
     function priceFormat($number)
     {
-        return number_format((float)$number, 2, '.', '');
+        return number_format((float) $number, 2, '.', '');
     }
 }
 
@@ -81,29 +81,32 @@ if (!function_exists('makeApiCall')) {
     /**
      * @param $url
      * @param string $method
-     * @param null $postData
+     * @param $postData
      * @param array|null $headers
-     * @param null $username
-     * @param null $password
-     * @param null $cookieFile
-     * @param null $bearerToken
+     * @param $username
+     * @param $password
+     * @param $cookieFile
+     * @param $bearerToken
      *
      * @return array
      *
      * Return result as array which contains headers and body.
      */
     function makeApiCall(
-        $url, string $method = 'get',
-        $postData = null, ?array $headers = [],
-        $username = null, $password = null,
-        $cookieFile = null, $bearerToken = null
-    )
-    {
+        $url,
+        string $method = 'get',
+        $postData = null,
+        ?array $headers = [],
+        $username = null,
+        $password = null,
+        $cookieFile = null,
+        $bearerToken = null
+    ) {
         $headers = !is_array($headers) ? array_values(makeArray($headers)) : array_values($headers);
         $headers[] = 'Connection: close';
 
         $host = parse_url($url, PHP_URL_HOST);
-        $port = (int)parse_url($url, PHP_URL_PORT);
+        $port = (int) parse_url($url, PHP_URL_PORT);
         $port = $port > 0 ? $port : 80;
 
         $method = strtolower($method);
@@ -122,7 +125,7 @@ if (!function_exists('makeApiCall')) {
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 
-        if ((int)config('app.allow_insecure_curl') === 1) {
+        if ((int) config('app.allow_insecure_curl') === 1) {
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         }
@@ -132,11 +135,13 @@ if (!function_exists('makeApiCall')) {
             curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFile);
         }
 
-        if (in_array($method, [
-            'post',
-            'put',
-            'patch',
-        ])) {
+        if (
+            in_array($method, [
+                'post',
+                'put',
+                'patch',
+            ])
+        ) {
             if ($method == 'post') {
                 curl_setopt($ch, CURLOPT_POST, 1);
             } else {
@@ -163,8 +168,11 @@ if (!function_exists('makeApiCall')) {
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-        curl_setopt($ch, CURLOPT_USERAGENT,
-            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36');
+        curl_setopt(
+            $ch,
+            CURLOPT_USERAGENT,
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36'
+        );
 
         $result = curl_exec($ch);
 
@@ -189,7 +197,7 @@ if (!function_exists('msleep')) {
      */
     function msleep(float $secondFloat)
     {
-        $secondFloat = (int)($secondFloat * 1000000);
+        $secondFloat = (int) ($secondFloat * 1000000);
         usleep($secondFloat);
     }
 }
@@ -349,7 +357,7 @@ if (!function_exists('startsWith')) {
     function startsWith($string, $startString)
     {
         $len = strlen($startString);
-        return (substr($string, 0, $len) === $startString);
+        return substr($string, 0, $len) === $startString;
     }
 }
 
@@ -369,7 +377,7 @@ if (!function_exists('endsWith')) {
         if ($len == 0) {
             return true;
         }
-        return (substr($string, -$len) === $endString);
+        return substr($string, -$len) === $endString;
     }
 }
 
@@ -398,8 +406,8 @@ if (!function_exists('randomDate')) {
      */
     function randomDate($minDay, $maxDay)
     {
-        if ((int)$maxDay < (int)$minDay) {
-            throw  new \InvalidArgumentException('maxDay has to be greater or equal then minDay');
+        if ((int) $maxDay < (int) $minDay) {
+            throw new \InvalidArgumentException('maxDay has to be greater or equal then minDay');
         }
 
         $randomDay = mt_rand($minDay, $maxDay);
@@ -773,7 +781,7 @@ if (!function_exists('runTimeDetect')) {
         $startTime = microtime(true);
         $result = $closure();
         $totalTime = microtime(true) - $startTime;
-        return [(float)number_format($totalTime, $decimal), $result];
+        return [(float) number_format($totalTime, $decimal), $result];
     }
 }
 
@@ -802,9 +810,9 @@ if (!function_exists('uniqidReal')) {
         // uniqid gives 13 chars, but you could adjust it to your needs.
         try {
             if (function_exists("random_bytes")) {
-                $bytes = random_bytes((int)ceil($lenght / 2));
+                $bytes = random_bytes((int) ceil($lenght / 2));
             } elseif (function_exists("openssl_random_pseudo_bytes")) {
-                $bytes = openssl_random_pseudo_bytes((int)ceil($lenght / 2));
+                $bytes = openssl_random_pseudo_bytes((int) ceil($lenght / 2));
             } else {
                 throw new Exception();
             }
@@ -855,8 +863,7 @@ if (!function_exists('importCsvMysql')) {
         array $columns,
         bool $ignoreFirstRow = true,
         string $fieldSeparator = ';'
-    ): bool
-    {
+    ): bool {
         $defaultMysqlDataPath = 'docker/volumes/mysql/';
 
         $defaultConnection = config('database.default');
@@ -891,12 +898,12 @@ SQL;
             $mysqlConfig['username'],
             $mysqlConfig['password'],
             $mysqlConfig['database'],
-            (int)$mysqlConfig['port']
+            (int) $mysqlConfig['port']
         );
         $queryResult = mysqli_query($conn, $sql);
         mysqli_close($conn);
 
-        return (bool)$queryResult;
+        return (bool) $queryResult;
     }
 }
 
@@ -910,10 +917,12 @@ if (!function_exists('logWithFileAndLine')) {
             throw new InvalidArgumentException('type value not valid.');
         }
 
-        if (!in_array(gettype($anything), [
-            'string',
-            'number',
-        ])) {
+        if (
+            !in_array(gettype($anything), [
+                'string',
+                'number',
+            ])
+        ) {
             $anything = objectToString($anything, true);
         }
         $bt = debug_backtrace();

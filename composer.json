@@ -1,28 +1,26 @@
 {
-    "name": "kodmanyagha/laravel-helpers",
-    "description": "Helper functions for Laravel and Lumen frameworks.",
-    "type": "library",
-    "version": "11.0.6-dev",
-    "require": {
-        "illuminate/support": "^7|^8|^v9|^v10|^v11",
-        "php": "^8.0|^8.1|^8.2|^8.3|^8.4",
-        "ext-json": "*",
-        "ext-curl": "*",
-        "ext-mysqli": "*"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Emir Buğra Köksalan",
-            "email": "kodmanyagha@gmail.com"
-        }
-    ],
-    "autoload": {
-        "files": [
-            "src/Helper.php"
-        ]
-    },
-    "suggest": {
-        "anik/form-request": "Required to use form request in Lumen."
+  "name": "kodmanyagha/laravel-helpers",
+  "description": "Helper functions for Laravel and Lumen frameworks.",
+  "type": "library",
+  "version": "11.0.6-dev",
+  "require": {
+    "laravel/framework": "^7|^8|^v9|^v10|^v11|^v12",
+    "illuminate/support": "^7|^8|^v9|^v10|^v11|^v12",
+    "php": "^8.0|^8.1|^8.2|^8.3|^8.4",
+    "ext-json": "*",
+    "ext-curl": "*",
+    "ext-mysqli": "*"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Emir Buğra Köksalan",
+      "email": "kodmanyagha@gmail.com"
     }
+  ],
+  "autoload": {
+    "files": [
+      "src/Helper.php"
+    ]
+  }
 }
